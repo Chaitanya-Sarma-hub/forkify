@@ -1,5 +1,3 @@
-import { async } from 'regenerator-runtime';
-import icons from 'url:../img/icons.svg';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import * as model from './model.js';
@@ -54,6 +52,14 @@ const controlSearchResults = async function () {
   }
 };
 
+const controlServings = function (newServings) {
+  // update recipe servings in state
+  model.updateServings(newServings);
+
+  // update the recipe view
+  recipeView.render(model.state.recipe);
+};
+
 const controlPagination = function (gotoPage) {
   // 3. render new search results
   resultsView.render(model.getSearchResultsPage(gotoPage));
@@ -64,6 +70,7 @@ const controlPagination = function (gotoPage) {
 
 const init = function () {
   recipeView.addHandlerRender(controlRecipes);
+  recipeView.addHandlerUpdateServings(controlServings);
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerClick(controlPagination);
 };
